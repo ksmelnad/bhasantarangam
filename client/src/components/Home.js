@@ -10,22 +10,22 @@ import axios from "axios";
 function Home() {
   const [words, setWords] = useState([]);
 
-  // const URL =
-  //   process.env.NODE_ENV !== "production"
-  //     ? "http://localhost:5000/words"
-  //     : "https://bhasantarangam.herokuapp.com/words";
+  const URL =
+    process.env.NODE_ENV !== "production"
+      ? "http://localhost:5000/words"
+      : "https://bhasantarangam.herokuapp.com/words";
 
   useEffect(() => {
     async function getWords() {
       await axios
-        .get("http://localhost:5000/words")
+        .get(URL)
         .then((res) => {
           setWords(res.data);
         })
         .catch(console.error());
     }
     getWords();
-  }, []);
+  }, [URL]);
 
   return (
     <>
