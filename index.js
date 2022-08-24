@@ -17,7 +17,16 @@ mgClient.connect(function (err){
   console.log("MongoDB started!");
 })
 
-
+router.get("/padas", function (req, res) {
+  let db_connect = mgClient.db();
+  db_connect
+    .collection("padas")
+    .find({})
+    .toArray(function (err, result) {
+      if (err) throw err;
+      res.status(200).json(result);
+    });
+});
 
 router.get("/words", function (req, res) {
   let db_connect = mgClient.db();

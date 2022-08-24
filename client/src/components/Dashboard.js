@@ -22,7 +22,7 @@ function Dashboard() {
       });
     }
     getWords();
-  });
+  }, [URL]);
 
   async function deleteMarking(id) {
     const URL_DEL =
