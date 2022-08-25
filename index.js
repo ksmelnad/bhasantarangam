@@ -58,8 +58,8 @@ passport.use(
       callbackURL: "/auth/google/callback",
     },
     function (accessToken, refreshToken, profile, cb) {
-      (function () {
-        let db_connect = client.db("bhasantarangam");
+      (async function () {
+        let db_connect = await client.db("bhasantarangam");
         db_connect.collection("users").updateOne(
           { googleId: profile.id },
           {
