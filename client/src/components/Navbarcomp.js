@@ -8,6 +8,7 @@ import axios from "axios";
 
 function Navbarcomp() {
   const context = useContext(myContext);
+  console.log("Context", context);
 
   const URL =
     process.env.NODE_ENV !== "production"

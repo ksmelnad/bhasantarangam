@@ -6,14 +6,9 @@ export const myContext = createContext({});
 function Context(props) {
   const [user, setUser] = useState();
 
-  const URL =
-    process.env.NODE_ENV !== "production"
-      ? "http://localhost:5000/getuser"
-      : "https://bhasantarangam.herokuapp.com/getuse";
-
   useEffect(() => {
     axios
-      .get(URL, {
+      .get("https://bhasantarangam.herokuapp.com/getuser", {
         withCredentials: true,
       })
       .then((res) => {

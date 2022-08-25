@@ -3,10 +3,11 @@ const app = express()
 const cors = require('cors')
 const session = require("express-session");
 const path = require("path");
+const passport = require("passport");
 require("dotenv").config();
 const { MongoClient, ServerApiVersion } = require("mongodb");
-const passport = require("./middleware/passport");
-// const mgClient = require("./db/conn");
+
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
 
 const mgClient = new MongoClient(process.env.MONGODB_URI, {
   useNewUrlParser: true,
@@ -40,24 +41,67 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+passport.serializeUser((user, done) => {
+  gId = user.id;
+  return done(null, user.id);
+});
+
+passport.deserializeUser((userId, done) => {
+  let db_connect = mgClient.db("bhasantarangam");
+  db_connect.collection("users").findOne(
+    {
+      googleId: userId,
+    },
+    function (err, doc) {
+      if (err) throw err;
+      console.log(doc);
+      return done(null, doc);
+    }
+  );
+});
+
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: "/auth/google/callback",
+    },
+    function (accessToken, refreshToken, profile, cb) {
+      (async function () {
+        let db_connect = await mgClient.db("bhasantarangam");
+        db_connect.collection("users").updateOne(
+          { googleId: profile.id },
+          {
+            $setOnInsert: {
+              googleId: profile.id,
+              username: profile.displayName,
+              firstname: profile.name.givenName,
+              lastname: profile.name.familyName,
+              image: profile.photos[0].value,
+            },
+          },
+          { upsert: true }
+        );
+      })();
+      cb(null, profile);
+    }
+  )
+);
+
 app.get(
   "/auth/google",
   passport.authenticate("google", { scope: ["profile"] })
 );
 
-const URL =
-  process.env !== "production"
-    ? "http://localhost:5000"
-    : "https://bhasantarangam.herokuapp.com";
-
 app.get(
   "/auth/google/callback",
   passport.authenticate("google", {
-    failureRedirect: URL,
+    failureRedirect: "https://bhasantarangam.herokuapp.com/login",
     session: true,
   }),
   function (req, res) {
-    res.redirect(URL);
+    res.redirect("https://bhasantarangam.herokuapp.com");
   }
 );
 
@@ -77,6 +121,8 @@ app.get("/auth/logout", (req, res) => {
 });
 
 app.use(cors({ credentials: true }));
+
+console.log(URL);
 
 app.use(require("./routes/bsrouter"));
 
