@@ -1,10 +1,32 @@
-import React from "react";
+import React, { useContext } from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Container from "react-bootstrap/Container";
 import { Link } from "react-router-dom";
+import { myContext } from "../Context";
+import axios from "axios";
 
 function Navbarcomp() {
+  const context = useContext(myContext);
+
+  const URL =
+    process.env.NODE_ENV !== "production"
+      ? "http://localhost:5000/auth/logout"
+      : "https://bhasantarangam.herokuapp.com/auth/logout";
+
+  const logout = () => {
+    axios
+      .get(URL, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          window.location.href = "/";
+        } else {
+          console.log("Cannot logout!");
+        }
+      });
+  };
   return (
     <Navbar className="p-1" style={{ backgroundColor: "#355764" }}>
       <Container>
@@ -19,22 +41,24 @@ function Navbarcomp() {
             width="145"
             height="60"
             alt=""
-            // className="d-inline-block align-top"
-          />{" "}
-          {/* Bhāṣāntaraṅgam */}
+          />
         </Navbar.Brand>
         <Nav className="ml-auto">
-          {/* <Nav.Link style={{ color: "#FFFFFF" }} as={Link} to="/about">
-            About
-          </Nav.Link> */}
-          <Nav.Link style={{ color: "#FFFFFF" }}>Create</Nav.Link>
-          <Nav.Link style={{ color: "#FFFFFF" }} as={Link} to="/dashboard">
-            Dashboard
-          </Nav.Link>
-
-          {/* <Nav.Link style={{ color: "#FFFFFF" }} href="/help">
-            Help
-          </Nav.Link> */}
+          {context ? (
+            <>
+              <Nav.Link style={{ color: "#FFFFFF" }}>Create</Nav.Link>
+              <Nav.Link style={{ color: "#FFFFFF" }} as={Link} to="/dashboard">
+                Dashboard
+              </Nav.Link>
+              <Nav.Link style={{ color: "#FFFFFF" }} onClick={logout}>
+                Logout
+              </Nav.Link>
+            </>
+          ) : (
+            <Nav.Link style={{ color: "#FFFFFF" }} as={Link} to="/login">
+              Login
+            </Nav.Link>
+          )}
         </Nav>
       </Container>
     </Navbar>
