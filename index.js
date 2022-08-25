@@ -9,7 +9,9 @@ require("dotenv").config();
 const client = require("./db/conn");
 
 app.use(express.json());
-app.use(cors({ origin: true, credentials: true }));
+app.use(
+  cors({ origin: "https://bhasantarangam.herokuapp.com", credentials: true })
+);
 
 app.use(
   session({
@@ -107,8 +109,6 @@ app.get("/auth/logout", (req, res) => {
     });
   }
 });
-
-
 
 app.use(require("./routes/bsrouter"));
 
