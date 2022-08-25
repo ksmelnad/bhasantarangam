@@ -9,15 +9,20 @@ function Navbarcomp() {
     <Navbar style={{ backgroundColor: "#355764" }}>
       <Container>
         <Navbar.Brand style={{ color: "#FFFFFF" }} as={Link} to="/">
-          Bhāṣāntaraṅgam
+          <img
+            src={require("../assets/Logo.png")}
+            width="121"
+            height="50"
+            alt=""
+            // className="d-inline-block align-top"
+          />{" "}
+          {/* Bhāṣāntaraṅgam */}
         </Navbar.Brand>
-        <Nav className="me-auto">
+        <Nav className="ml-auto">
           {/* <Nav.Link style={{ color: "#FFFFFF" }} as={Link} to="/about">
             About
           </Nav.Link> */}
-          <Nav.Link style={{ color: "#FFFFFF" }} as={Link} to="/create">
-            Create
-          </Nav.Link>
+          <Nav.Link style={{ color: "#FFFFFF" }}>Create</Nav.Link>
           <Nav.Link style={{ color: "#FFFFFF" }} as={Link} to="/dashboard">
             Dashboard
           </Nav.Link>

@@ -183,19 +183,21 @@ function Home() {
                 <Col>
                   <Card
                     key={index}
-                    className="mt-3 p-2"
+                    className="mt-3"
                     style={{
                       backgroundColor: "#355764",
                       color: "#FFF9CA",
                       height: "98%",
                     }}
                   >
+                    <Card.Header className="d-flex justify-content-between h5">
+                      {" "}
+                      <div>{data.title}</div>
+                      <div>{data.title_trans}</div>
+                      <div>{data.id}</div>
+                    </Card.Header>
+
                     <Card.Body>
-                      <Card.Title className="d-flex justify-content-between">
-                        <div>{data.title}</div>
-                        <div>{data.title_trans}</div>
-                        <div>{data.id}</div>
-                      </Card.Title>
                       <Card.Text>
                         {data["san"].map((d, index) => {
                           return (

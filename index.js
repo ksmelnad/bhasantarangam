@@ -32,12 +32,12 @@ router.get("/words", function (req, res) {
   let db_connect = mgClient.db();
   db_connect
     .collection("words")
-    .find({ })
+    .find({})
     .toArray(function (err, result) {
       if (err) throw err;
       res.status(200).json(result);
     });
-});
+}); 
 
 // Add word
 router.post("/create", function (req, res) {

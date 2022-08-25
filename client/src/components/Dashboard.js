@@ -12,7 +12,7 @@ function Dashboard() {
 
   const URL =
     process.env.NODE_ENV !== "production"
-      ? "http://localhost:5000/words"
+      ? "http://localhost:5000/padas"
       : "https://bhasantarangam.herokuapp.com/words";
 
   useEffect(() => {
@@ -27,7 +27,7 @@ function Dashboard() {
   async function deleteMarking(id) {
     const URL_DEL =
       process.env.NODE_ENV !== "production"
-        ? `http://localhost:5000/words/${id}`
+        ? `http://localhost:5000/padas/${id}`
         : `https://bhasantarangam.herokuapp.com/words/${id}`;
     // console.log(id);
     await axios
@@ -63,9 +63,10 @@ function Dashboard() {
                   <BsTrash
                     style={{ color: "green" }}
                     type="button"
-                    onClick={() => {
-                      deleteMarking(data._id);
-                    }}
+                    // onClick={() => {
+                    //   deleteMarking(data._id);
+                    //   ;
+                    // }}
                   />{" "}
                 </td>
               </tr>
