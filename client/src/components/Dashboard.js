@@ -13,7 +13,7 @@ function Dashboard() {
   const URL =
     process.env.NODE_ENV !== "production"
       ? "http://localhost:5000/padas"
-      : "https://bhasantarangam.herokuapp.com/words";
+      : "https://bhasantarangam.herokuapp.com/padas";
 
   useEffect(() => {
     async function getWords() {
@@ -28,7 +28,7 @@ function Dashboard() {
     const URL_DEL =
       process.env.NODE_ENV !== "production"
         ? `http://localhost:5000/padas/${id}`
-        : `https://bhasantarangam.herokuapp.com/words/${id}`;
+        : `https://bhasantarangam.herokuapp.com/padas/${id}`;
     // console.log(id);
     await axios
       .delete(URL_DEL)

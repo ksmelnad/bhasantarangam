@@ -6,13 +6,18 @@ import { Link } from "react-router-dom";
 
 function Navbarcomp() {
   return (
-    <Navbar style={{ backgroundColor: "#355764" }}>
+    <Navbar className="p-1" style={{ backgroundColor: "#355764" }}>
       <Container>
-        <Navbar.Brand style={{ color: "#FFFFFF" }} as={Link} to="/">
+        <Navbar.Brand
+          className="p-0"
+          style={{ color: "#FFFFFF" }}
+          as={Link}
+          to="/"
+        >
           <img
             src={require("../assets/Logo.png")}
-            width="121"
-            height="50"
+            width="145"
+            height="60"
             alt=""
             // className="d-inline-block align-top"
           />{" "}
