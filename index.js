@@ -84,11 +84,11 @@ app.get(
 app.get(
   "/auth/google/callback",
   passport.authenticate("google", {
-    failureRedirect: "/login",
+    failureRedirect: "https://bhasantarangam.herokuapp.com",
     session: true,
   }),
   function (req, res) {
-    res.redirect("/");
+    res.redirect("https://bhasantarangam.herokuapp.com");
   }
 );
 
