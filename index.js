@@ -6,21 +6,7 @@ const path = require("path");
 const passport = require("passport");
 require("dotenv").config();
 
-const { MongoClient, ServerApiVersion } = require("mongodb");
-
-const mgClient = new MongoClient(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  serverApi: ServerApiVersion.v1,
-});
-
-mgClient.connect(function (err) {
-  console.log("MongoDB started!");
-});
-
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "./client/build", "index.html"));
-});
+const client = require("./db/conn");
 
 app.use(express.json());
 
@@ -46,7 +32,7 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((userId, done) => {
-  let db_connect = mgClient.db("bhasantarangam");
+  let db_connect = client.db("bhasantarangam");
   db_connect.collection("users").findOne(
     {
       googleId: userId,
@@ -70,7 +56,7 @@ passport.use(
     },
     function (accessToken, refreshToken, profile, cb) {
       (function () {
-        let db_connect = mgClient.db("bhasantarangam");
+        let db_connect = client.db("bhasantarangam");
         db_connect.collection("users").updateOne(
           { googleId: profile.id },
           {
@@ -126,6 +112,10 @@ app.use(cors());
 app.use(require("./routes/bsrouter"));
 
 app.use(express.static(path.join(__dirname, "./client", "build")));
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "./client/build", "index.html"));
+});
 
 app.listen(process.env.PORT || 5000, (req, res)=>{
   console.log("Server is running at 5000")
