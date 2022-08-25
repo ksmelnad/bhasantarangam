@@ -9,6 +9,7 @@ require("dotenv").config();
 const client = require("./db/conn");
 
 app.use(express.json());
+app.use(cors({ origin: true, credentials: true }));
 
 app.use(
   session({
@@ -107,7 +108,7 @@ app.get("/auth/logout", (req, res) => {
   }
 });
 
-app.use(cors());
+
 
 app.use(require("./routes/bsrouter"));
 
