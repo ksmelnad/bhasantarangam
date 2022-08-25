@@ -5,9 +5,8 @@ const session = require("express-session");
 const path = require("path");
 const passport = require("passport");
 require("dotenv").config();
-const { MongoClient, ServerApiVersion } = require("mongodb");
 
-const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const { MongoClient, ServerApiVersion } = require("mongodb");
 
 const mgClient = new MongoClient(process.env.MONGODB_URI, {
   useNewUrlParser: true,
@@ -60,6 +59,8 @@ passport.deserializeUser((userId, done) => {
   );
 });
 
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
+
 passport.use(
   new GoogleStrategy(
     {
@@ -68,8 +69,8 @@ passport.use(
       callbackURL: "/auth/google/callback",
     },
     function (accessToken, refreshToken, profile, cb) {
-      (async function () {
-        let db_connect = await mgClient.db("bhasantarangam");
+      (function () {
+        let db_connect = mgClient.db("bhasantarangam");
         db_connect.collection("users").updateOne(
           { googleId: profile.id },
           {
@@ -97,11 +98,11 @@ app.get(
 app.get(
   "/auth/google/callback",
   passport.authenticate("google", {
-    failureRedirect: "https://bhasantarangam.herokuapp.com/login",
+    failureRedirect: "/login",
     session: true,
   }),
   function (req, res) {
-    res.redirect("https://bhasantarangam.herokuapp.com");
+    res.redirect("/");
   }
 );
 
@@ -120,15 +121,11 @@ app.get("/auth/logout", (req, res) => {
   }
 });
 
-app.use(cors({ credentials: true }));
-
-console.log(URL);
+app.use(cors());
 
 app.use(require("./routes/bsrouter"));
 
 app.use(express.static(path.join(__dirname, "./client", "build")));
-
-
 
 app.listen(process.env.PORT || 5000, (req, res)=>{
   console.log("Server is running at 5000")
