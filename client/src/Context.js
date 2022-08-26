@@ -4,8 +4,8 @@ import React, { useEffect, useState, createContext } from "react";
 export const myContext = createContext({});
 
 function Context(props) {
-  const [user, setUser] = useState();
-  console.log("User from context:", user);
+  const [userObject, setUserObject] = useState();
+  console.log("User from context:", userObject);
 
   useEffect(() => {
     axios
@@ -14,11 +14,13 @@ function Context(props) {
       })
       .then((res) => {
         if (res.data) {
-          setUser(res.data);
+          setUserObject(res.data);
         }
       });
   }, []);
-  return <myContext.Provider value={user}>{props.children}</myContext.Provider>;
+  return (
+    <myContext.Provider value={userObject}>{props.children}</myContext.Provider>
+  );
 }
 
 export default Context;

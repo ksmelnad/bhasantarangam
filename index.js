@@ -94,7 +94,7 @@ app.get(
   }
 );
 
-app.get("https://bhasantarangam.herokuapp.com/getuser", (req, res) => {
+app.get("/getuser", (req, res) => {
   res.send(req.user);
   console.log(user);
 });
