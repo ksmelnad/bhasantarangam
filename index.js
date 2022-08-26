@@ -29,25 +29,6 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.serializeUser((user, done) => {
-  gId = user.id;
-  return done(null, user.id);
-});
-
-passport.deserializeUser((userId, done) => {
-  let db_connect = client.db("bhasantarangam");
-  db_connect.collection("users").findOne(
-    {
-      googleId: userId,
-    },
-    function (err, doc) {
-      if (err) throw err;
-      console.log(doc);
-      return done(null, doc);
-    }
-  );
-});
-
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 
 passport.use(
@@ -79,6 +60,24 @@ passport.use(
   )
 );
 
+passport.serializeUser((user, done) => {
+  return done(null, user.id);
+});
+
+passport.deserializeUser((userId, done) => {
+  let db_connect = client.db("bhasantarangam");
+  db_connect.collection("users").findOne(
+    {
+      googleId: userId,
+    },
+    function (err, doc) {
+      if (err) throw err;
+      console.log(doc);
+      return done(null, doc);
+    }
+  );
+});
+
 app.get(
   "/auth/google",
   passport.authenticate("google", { scope: ["profile"] })
@@ -95,8 +94,9 @@ app.get(
   }
 );
 
-app.get("/getuser", (req, res) => {
+app.get("https://bhasantarangam.herokuapp.com/getuser", (req, res) => {
   res.send(req.user);
+  console.log(user);
 });
 
 app.get("/auth/logout", (req, res) => {

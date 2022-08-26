@@ -5,6 +5,7 @@ export const myContext = createContext({});
 
 function Context(props) {
   const [user, setUser] = useState();
+  console.log("User from context:", user);
 
   useEffect(() => {
     axios
