@@ -61,17 +61,17 @@ app.get("/auth/logout", (req, res) => {
 
 app.use(require("./routes/bsrouter"));
 
-if (process.env.NODE_ENV !== "development") {
+
   app.use(express.static(path.join(__dirname, "./client", "build")));
 
   app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "./client/build", "index.html"));
   });
-} else {
-  app.get("/", (req, res) => {
-    res.send('Hi, server is running <a href="/auth/google">Login </a>');
-  });
-}
+
+  // app.get("/", (req, res) => {
+  //   res.send('Hi, server is running <a href="/auth/google">Login </a>');
+  // });
+
 
 app.listen(process.env.PORT || 5000, (req, res) => {
   console.log("Server is running at 5000");
