@@ -1,6 +1,8 @@
 const express = require("express");
 const session = require("express-session");
+const path = require("path");
 require("dotenv").config();
+
 const passport = require("passport");
 require("./passportauth");
 const app = express();
