@@ -7,6 +7,7 @@ import Dashboard from "./components/Dashboard";
 import Login from "./components/Login";
 import { useContext } from "react";
 import { myContext } from "./Context";
+import Nothing from "./components/Nothing";
 
 function App() {
   const context = useContext(myContext);
@@ -23,8 +24,9 @@ function App() {
               <Route path="/dashboard" element={<Dashboard />} />
             </>
           ) : (
-            <Route path="*" element={<h2>Nothing found</h2>} />
+            <Route path="*" element={<Nothing />} />
           )}
+          <Route path="*" element={<Nothing />} />
         </Routes>
       </BrowserRouter>
     </>

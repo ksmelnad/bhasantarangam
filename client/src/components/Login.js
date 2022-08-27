@@ -2,17 +2,12 @@ import React from "react";
 import { Container } from "react-bootstrap";
 
 function Login() {
-  const URL =
-    process.env.NODE_ENV !== "production"
-      ? "http://localhost:5000/auth/google"
-      : "https://bhasantarangam.herokuapp.com/auth/google";
-
   const googleLogin = () => {
-    window.location.href = URL;
+    window.location.href = "https://bhasantarangam.herokuapp.com/auth/google";
   };
   return (
     <>
-      <Container className="mt-5">
+      <Container className="mt-5" style={{ textAlign: "center" }}>
         <button className="btn btn-link" onClick={googleLogin}>
           Login with Google
         </button>

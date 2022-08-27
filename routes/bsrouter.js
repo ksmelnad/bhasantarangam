@@ -15,28 +15,20 @@ router.get("/padas", function (req, res) {
     });
 });
 
-router.get("/words", function (req, res) {
-  let db_connect = mgClient.db();
-  db_connect
-    .collection("words")
-    .find({})
-    .toArray(function (err, result) {
-      if (err) throw err;
-      res.status(200).json(result);
-    });
-});
-
 // Add word
 router.post("/create", function (req, res) {
   let db_connect = mgClient.db();
-  db_connect.collection("words").insertOne(
+  db_connect.collection("padas").insertOne(
     {
       id: req.body.id,
       title: req.body.title,
-      artha: req.body.artha,
-      vyutpatti: req.body.vyutpatti,
-      nighantu: req.body.nighantu,
+      title_trans: req.body.title_trans,
+      san: req.body.san,
       eng: req.body.eng,
+      kan: req.body.kan,
+      hin: req.body.hin,
+      mar: req.body.mar,
+      ex: req.body.ex,
       date: Date(),
     },
     function (err, res) {
@@ -47,10 +39,10 @@ router.post("/create", function (req, res) {
 });
 
 // Delete word
-router.delete("/words/:id", (req, res) => {
+router.delete("/padas/:id", (req, res) => {
   let db_connect = mgClient.db();
   let myquery = { _id: ObjectId(req.params.id) };
-  db_connect.collection("words").deleteOne(myquery, (err, res) => {
+  db_connect.collection("padas").deleteOne(myquery, (err, res) => {
     if (err) throw err;
     console.log("1 document deleted!");
   });

@@ -1,11 +1,13 @@
 import axios from "axios";
 import React, { useEffect, useState, createContext } from "react";
+// const path = require("path");
+// require("dotenv").config();
 
 export const myContext = createContext({});
 
 function Context(props) {
   const [userObject, setUserObject] = useState();
-  console.log("User from context:", userObject);
+  // console.log("User from context:", userObject);
 
   useEffect(() => {
     axios

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Container from "react-bootstrap/esm/Container";
 import Table from "react-bootstrap/Table";
 import { BsTrash } from "react-icons/bs";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function Dashboard() {
   const [words, setWords] = useState([]);
@@ -63,10 +63,9 @@ function Dashboard() {
                   <BsTrash
                     style={{ color: "green" }}
                     type="button"
-                    // onClick={() => {
-                    //   deleteMarking(data._id);
-                    //   ;
-                    // }}
+                    onClick={() => {
+                      deleteMarking(data._id);
+                    }}
                   />{" "}
                 </td>
               </tr>

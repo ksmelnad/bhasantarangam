@@ -8,7 +8,7 @@ import axios from "axios";
 
 function Navbarcomp() {
   const context = useContext(myContext);
-  console.log("Context", context);
+  // console.log("Context", context);
 
   const URL =
     process.env.NODE_ENV !== "production"
@@ -47,7 +47,9 @@ function Navbarcomp() {
         <Nav className="ml-auto">
           {context ? (
             <>
-              <Nav.Link style={{ color: "#FFFFFF" }}>Create</Nav.Link>
+              <Nav.Link style={{ color: "#FFFFFF" }} as={Link} to="/create">
+                Create
+              </Nav.Link>
               <Nav.Link style={{ color: "#FFFFFF" }} as={Link} to="/dashboard">
                 Dashboard
               </Nav.Link>

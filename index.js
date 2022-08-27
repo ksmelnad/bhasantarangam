@@ -1,12 +1,10 @@
-const express = require('express')
-const app = express()
-const cors = require('cors')
+const express = require("express");
 const session = require("express-session");
-const path = require("path");
-const passport = require("passport");
 require("dotenv").config();
-
-const client = require("./db/conn");
+const passport = require("passport");
+require("./passportauth");
+const app = express();
+const cors = require("cors");
 
 app.use(express.json());
 app.use(
@@ -16,67 +14,13 @@ app.use(
 app.use(
   session({
     secret: "secretcode",
-    resave: true,
+    resave: false,
     saveUninitialized: true,
-    cookie: {
-      sameSite: "none",
-      secure: true,
-      maxAge: 1000 * 60 * 60 * 27 * 7,
-    },
   })
 );
 
 app.use(passport.initialize());
 app.use(passport.session());
-
-const GoogleStrategy = require("passport-google-oauth20").Strategy;
-
-passport.use(
-  new GoogleStrategy(
-    {
-      clientID: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "https://bhasantarangam.herokuapp.com/auth/google/callback",
-    },
-    function (accessToken, refreshToken, profile, cb) {
-      (async function () {
-        let db_connect = await client.db("bhasantarangam");
-        db_connect.collection("users").updateOne(
-          { googleId: profile.id },
-          {
-            $setOnInsert: {
-              googleId: profile.id,
-              username: profile.displayName,
-              firstname: profile.name.givenName,
-              lastname: profile.name.familyName,
-              image: profile.photos[0].value,
-            },
-          },
-          { upsert: true }
-        );
-      })();
-      cb(null, profile);
-    }
-  )
-);
-
-passport.serializeUser((user, done) => {
-  return done(null, user.id);
-});
-
-passport.deserializeUser((userId, done) => {
-  let db_connect = client.db("bhasantarangam");
-  db_connect.collection("users").findOne(
-    {
-      googleId: userId,
-    },
-    function (err, doc) {
-      if (err) throw err;
-      console.log(doc);
-      return done(null, doc);
-    }
-  );
-});
 
 app.get(
   "/auth/google",
@@ -86,17 +30,22 @@ app.get(
 app.get(
   "/auth/google/callback",
   passport.authenticate("google", {
-    failureRedirect: "https://bhasantarangam.herokuapp.com",
-    session: true,
-  }),
-  function (req, res) {
-    res.redirect("https://bhasantarangam.herokuapp.com");
-  }
+    failureRedirect: "https://bhasantarangam.herokuapp.com/login",
+    successRedirect: "https://bhasantarangam.herokuapp.com",
+  })
 );
+
+function isLoggedIn(req, res, next) {
+  req.user ? next() : res.sendStatus(401);
+}
+
+app.get("/protected", isLoggedIn, (req, res) => {
+  res.send(`Hello ${req.user.firstname}`);
+});
 
 app.get("/getuser", (req, res) => {
   res.send(req.user);
-  console.log(user);
+  console.log("Get user", req.user);
 });
 
 app.get("/auth/logout", (req, res) => {
@@ -112,12 +61,18 @@ app.get("/auth/logout", (req, res) => {
 
 app.use(require("./routes/bsrouter"));
 
-app.use(express.static(path.join(__dirname, "./client", "build")));
+if (process.env.NODE_ENV !== "development") {
+  app.use(express.static(path.join(__dirname, "./client", "build")));
 
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "./client/build", "index.html"));
+  app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "./client/build", "index.html"));
+  });
+} else {
+  app.get("/", (req, res) => {
+    res.send('Hi, server is running <a href="/auth/google">Login </a>');
+  });
+}
+
+app.listen(process.env.PORT || 5000, (req, res) => {
+  console.log("Server is running at 5000");
 });
-
-app.listen(process.env.PORT || 5000, (req, res)=>{
-  console.log("Server is running at 5000")
-})
