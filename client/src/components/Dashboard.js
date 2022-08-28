@@ -1,11 +1,14 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Container from "react-bootstrap/esm/Container";
 import Table from "react-bootstrap/Table";
 import { BsTrash } from "react-icons/bs";
 import { Link } from "react-router-dom";
+import { myContext } from "../Context";
 
 function Dashboard() {
+  const context = useContext(myContext);
+  const username = context.username;
   const [words, setWords] = useState([]);
 
   // const { id } = useParams();
@@ -37,7 +40,8 @@ function Dashboard() {
 
   return (
     <Container className="mt-5">
-      <Table>
+      <h3>स्वागतम् {username}</h3>
+      <Table className="mt-5">
         <thead>
           <tr>
             <th>ID</th>

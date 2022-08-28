@@ -8,7 +8,7 @@ router.get("/padas", function (req, res) {
   let db_connect = mgClient.db();
   db_connect
     .collection("padas")
-    .find({})
+    .find({}).sort( { id_eng: -1 } )
     .toArray(function (err, result) {
       if (err) throw err;
       res.status(200).json(result);
@@ -21,14 +21,15 @@ router.post("/create", function (req, res) {
   db_connect.collection("padas").insertOne(
     {
       id: req.body.id,
+      id_eng: req.body.id_eng,
       title: req.body.title,
       title_trans: req.body.title_trans,
       san: req.body.san,
+      ex: req.body.ex,
       eng: req.body.eng,
       kan: req.body.kan,
       hin: req.body.hin,
       mar: req.body.mar,
-      ex: req.body.ex,
       date: Date(),
     },
     function (err, res) {

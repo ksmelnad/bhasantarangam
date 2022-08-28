@@ -7,25 +7,17 @@ import { useNavigate } from "react-router-dom";
 
 function Create() {
   const [id, setId] = useState("");
+  const [idEng, setIdEng] = useState("");
   const [title, setTitle] = useState("");
   const [title_trans, setTitleTrans] = useState("");
   const [sanOne, setSanOne] = useState("");
   const [sanTwo, setSanTwo] = useState("");
   const [sanThree, setSanThree] = useState("");
   const [engOne, setEngOne] = useState("");
-  const [engTwo, setEngTwo] = useState("");
-  const [engThree, setEngThree] = useState("");
   const [kanOne, setKanOne] = useState("");
-  const [kanTwo, setKanTwo] = useState("");
-  const [kanThree, setKanThree] = useState("");
   const [hinOne, setHinOne] = useState("");
-  const [hinTwo, setHinTwo] = useState("");
-  const [hinThree, setHinThree] = useState("");
   const [marOne, setMarOne] = useState("");
-  const [marTwo, setMarTwo] = useState("");
-  const [marThree, setMarThree] = useState("");
   const [exOne, setExOne] = useState("");
-  const [exTwo, setExTwo] = useState("");
   let navigate = useNavigate();
 
   const URL =
@@ -39,14 +31,15 @@ function Create() {
     await axios
       .post(URL, {
         id: id,
+        id_eng: idEng,
         title: title,
         title_trans: title_trans,
         san: [sanOne, sanTwo, sanThree],
-        eng: [engOne, engTwo, engThree],
-        kan: [kanOne, kanTwo, kanThree],
-        hin: [hinOne, hinTwo, hinThree],
-        mar: [marOne, marTwo, marThree],
-        ex: [exOne, exTwo],
+        eng: engOne.split("\n"),
+        kan: kanOne.split("\n"),
+        hin: hinOne.split("\n"),
+        mar: marOne.split("\n"),
+        ex: exOne.split("\n"),
       })
       .then(navigate("/"));
   }
@@ -68,6 +61,15 @@ function Create() {
               setId(e.target.value);
             }}
             type="text"
+            placeholder="सङ्ख्या"
+            required
+          />
+          <Form.Control
+            value={idEng}
+            onChange={(e) => {
+              setIdEng(e.target.value);
+            }}
+            type="text"
             placeholder="ID"
             required
           />
@@ -77,7 +79,7 @@ function Create() {
               setTitle(e.target.value);
             }}
             type="text"
-            placeholder="Title"
+            placeholder="शीर्षकम्"
             required
           />
           <Form.Control
@@ -86,41 +88,50 @@ function Create() {
               setTitleTrans(e.target.value);
             }}
             type="text"
-            placeholder="title_trans"
+            placeholder="IAST"
             required
           />
-          <Form.Control
-            type="text"
-            placeholder="San_1"
+          <Form.Control 
+          as="textarea" rows={3}
+            
+            placeholder="व्युत्पत्तिः"
             onChange={(e) => {
               setSanOne(e.target.value);
             }}
             required
           />
           <Form.Control
-            type="text"
-            placeholder="San_2"
+            as="textarea" rows={3}
+            placeholder="निष्पत्तिः"
             onChange={(e) => {
               setSanTwo(e.target.value);
             }}
             required
           />
           <Form.Control
-            type="text"
-            placeholder="San_3"
+            as="textarea" rows={3}
+            placeholder="शब्दान्तराणि"
             onChange={(e) => {
               setSanThree(e.target.value);
             }}
             required
           />
           <Form.Control
-            type="text"
-            placeholder="Eng_1"
+            as="textarea" rows={3}
+            placeholder="निगमः"
+            onChange={(e) => {
+              setExOne(e.target.value);
+            }}
+            required
+          />
+          <Form.Control
+            as="textarea" rows={3}
+            placeholder="English"
             onChange={(e) => {
               setEngOne(e.target.value);
             }}
           />
-          <Form.Control
+          {/* <Form.Control
             type="text"
             placeholder="Eng_2"
             onChange={(e) => {
@@ -135,16 +146,16 @@ function Create() {
               setEngThree(e.target.value);
             }}
             required
-          />
+          /> */}
           <Form.Control
-            type="text"
-            placeholder="Kan_1"
+            as="textarea" rows={3}
+            placeholder="ಕನ್ನಡ"
             onChange={(e) => {
               setKanOne(e.target.value);
             }}
             required
           />
-          <Form.Control
+          {/* <Form.Control
             type="text"
             placeholder="Kan_2"
             onChange={(e) => {
@@ -159,16 +170,16 @@ function Create() {
               setKanThree(e.target.value);
             }}
             required
-          />
+          /> */}
           <Form.Control
-            type="text"
-            placeholder="Hin_1"
+            as="textarea" rows={3}
+            placeholder="हिन्दी"
             onChange={(e) => {
               setHinOne(e.target.value);
             }}
             required
           />
-          <Form.Control
+          {/* <Form.Control
             type="text"
             placeholder="Hin_2"
             onChange={(e) => {
@@ -183,16 +194,16 @@ function Create() {
               setHinThree(e.target.value);
             }}
             required
-          />
+          /> */}
           <Form.Control
-            type="text"
-            placeholder="Mar_1"
+            as="textarea" rows={3}
+            placeholder="मराठी"
             onChange={(e) => {
               setMarOne(e.target.value);
             }}
             required
           />
-          <Form.Control
+          {/* <Form.Control
             type="text"
             placeholder="Mar_2"
             onChange={(e) => {
@@ -207,23 +218,16 @@ function Create() {
               setMarThree(e.target.value);
             }}
             required
-          />
-          <Form.Control
-            type="text"
-            placeholder="Ex_1"
-            onChange={(e) => {
-              setExOne(e.target.value);
-            }}
-            required
-          />
-          <Form.Control
+          /> */}
+          
+          {/* <Form.Control
             type="text"
             placeholder="Ex_2"
             onChange={(e) => {
               setExTwo(e.target.value);
             }}
             required
-          />
+          /> */}
         </Form.Group>
         <Button variant="success" type="submit" onClick={onSubmit}>
           Submit

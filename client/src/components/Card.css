@@ -1,0 +1,14 @@
+.card {
+  background-color: #112f3a !important;
+}
+
+.card-header {
+  color: #eac95c !important;
+  text-decoration: double;
+  -webkit-text-stroke: 0.6px rgb(182, 175, 28);
+}
+
+.btn {
+  background-color: #112f3a !important;
+  border: none;
+}

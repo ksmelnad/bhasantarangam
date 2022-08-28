@@ -9,9 +9,7 @@ const app = express();
 const cors = require("cors");
 
 app.use(express.json());
-app.use(
-  cors({ origin: "https://bhasantarangam.herokuapp.com", credentials: true })
-);
+app.use(cors({ origin: "https://bhasantarangam.herokuapp.com", credentials: true }));
 
 app.use(
   session({
@@ -69,11 +67,11 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "./client/build", "index.html"));
 });
 
-  // app.get("/", (req, res) => {
-  //   res.send('Hi, server is running <a href="/auth/google">Login </a>');
-  // });
-
+// app.get("/", (req, res) => {
+//   res.send('Hi, server is running <a href="/auth/google">Login </a>');
+// });
 
 app.listen(process.env.PORT || 5000, (req, res) => {
   console.log("Server is running at 5000");
+  
 });

@@ -29,7 +29,7 @@ function Navbarcomp() {
       });
   };
   return (
-    <Navbar className="p-1" style={{ backgroundColor: "#355764" }}>
+    <Navbar className="p-1" style={{ backgroundColor: "#112f3a" }}>
       <Container>
         <Navbar.Brand
           className="p-0"
